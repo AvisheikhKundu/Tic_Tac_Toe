@@ -1,114 +1,115 @@
-
-
-
 #include <stdio.h>
-char box[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-void createBoard();
-void markingBoard(int, char);
-int checkWinner();
-int main(){
-    int choice, player = 1, i;
-    char mark;
-    do {
-        createBoard();
+#include <conio.h>  //getch()
+#include <stdlib.h> //system()
+char arr[10] = {'o', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+void showBoard();
+int checkForWin();
+
+// Driver Function
+int main()
+{
+    int player = 1;
+    int choice, i;
+    char mark; // X or O
+
+    do
+    {
+        showBoard();
         player = (player % 2) ? 1 : 2;
-
-        printf("\t\tplayer %d, enter a number:", player);
+        printf("\n\tPlayer %d turn :", player);
         scanf("%d", &choice);
+        mark = (player == 1) ? 'X' : 'O';
 
-        mark = (player == 1) ? 'X' : 'o';
-        markingBoard(choice, mark);
+        if (choice == 1 && arr[1] == '1')
+            arr[1] = mark;
+        else if (choice == 2 && arr[2] == '2')
+            arr[2] = mark;
+        else if (choice == 3 && arr[3] == '3')
+            arr[3] = mark;
+        else if (choice == 4 && arr[4] == '4')
+            arr[4] = mark;
+        else if (choice == 5 && arr[5] == '5')
+            arr[5] = mark;
+        else if (choice == 6 && arr[6] == '6')
+            arr[6] = mark;
+        else if (choice == 7 && arr[7] == '7')
+            arr[7] = mark;
+        else if (choice == 8 && arr[8] == '8')
+            arr[8] = mark;
+        else if (choice == 9 && arr[9] == '9')
+            arr[9] = mark;
 
-        i = checkWinner();
+        else // player==1 ----10
+        {
+            printf("Invalid value\n");
+            player--;
+            getch();
+        }
+
+        i = checkForWin(); //-1,0,1
         player++;
-    }
-    while
-        (i == -1);
-    createBoard();
+    } while (i == -1);
 
+    showBoard();
     if (i == 1)
-        printf("player %d You have won the game", --player);
+    {
+        printf("Player %d Won\n", --player);
+    }
     else
-        printf("<-------Draw------->");
-return 0;
+    {
+        printf("Game Draw\n");
+    }
+
+    getch();
+    return 0;
 }
 
-void createBoard()
+// Function to print the Tic Tac Toe board
+void showBoard()
 {
-    printf("\n\n\tTic-tac-toe\n\n");
+    system("cls");
+    printf("\t\t\t\t  Go Back to Childhood and Enjoy the Game\n");
+    printf("\t\t\t\t\t\tTic Tac Toe\n");
     printf("\t\t\t\t\tPlayer 1 (X) -- Player 2 (0)\n\n");
-    printf("\t\t\t\t\t\t     |    |   \n");
-    printf("\t\t\t\t\t\t %c   | %c  |%c   \n", box[1], box[2], box[3]);
-    printf("\t\t\t\t\t\t_____|____|____\n");
-    printf("\t\t\t\t\t\t     |    |    \n");
-    printf("\t\t\t\t\t\t %c   | %c  |%c   \n", box[4], box[5], box[6]);
-    printf("\t\t\t\t\t\t_____|____|____\n");
-    printf("\t\t\t\t\t\t     |    |    \n");
-    printf("\t\t\t\t\t\t %c   | %c  |%c   \n", box[7], box[8], box[9]);
-    printf("\t\t\t\t\t\t_____|____|____\n");
-    printf("\t\t\t\t\t\t     |    |    \n");
+    printf("\t\t\t\t\t       |       |      \n");
+    printf("\t\t\t\t\t       |       |      \n");
+    printf("\t\t\t\t\t   %c   |   %c   |   %c   \n", arr[1], arr[2], arr[3]);
+    printf("\t\t\t\t\t-------|-------|-------\n");
+    printf("\t\t\t\t\t       |       |      \n");
+    printf("\t\t\t\t\t   %c   |   %c   |   %c   \n", arr[4], arr[5], arr[6]);
+    printf("\t\t\t\t\t       |       |      \n");
+    printf("\t\t\t\t\t-------|-------|-------\n");
+    printf("\t\t\t\t\t       |       |      \n");
+    printf("\t\t\t\t\t   %c   |   %c   |   %c   \n", arr[7], arr[8], arr[9]);
+    printf("\t\t\t\t\t       |       |      \n");
 }
 
-void markingBoard(int choice, char mark)
-{
-    if (choice == 1 && box[1] == '1'){
-        box[1] = mark;
-    }
-    else if (choice == 2 && box[2] == '2'){
-        box[2] = mark;
-    }
-    else if (choice == 3 && box[3] == '3'){
-        box[3] = mark;
-    }
-    else if (choice == 4 && box[4] == '4'){
-        box[4] = mark;
-    }
-    else if (choice == 5 && box[5] == '5'){
-        box[5] = mark;
-    }
-    else if (choice == 6 && box[6] == '6'){
-        box[6] = mark;
-    }
-    else if (choice == 7 && box[7] == '7'){
-        box[7] = mark;
-    }
-    else if (choice == 8 && box[8] == '8'){
-        box[8] = mark;
-    }
-    else if (choice == 9 && box[9] == '9'){
-        box[9] = mark;
-    }
-    else{
-        printf("Invalid");
-    }
-}
-
-int checkWinner()
-{
-    // horizontal matching condition...
-    if (box[1] == box[2] && box[2] == box[3])
+// A function to check if the has won or not.
+int checkForWin()
+{// horizontal matching condition...
+    if (arr[1] == arr[2] && arr[2] == arr[3])
         return 1;
-    else if (box[4] == box[5] && box[5] == box[6])      // horizontal match...
+    else if (arr[4] == arr[5] && arr[5] == arr[6])      // horizontal match...
         return 1;
-    else if (box[7] == box[8] && box[8] == box[9])
+    else if (arr[7] == arr[8] && arr[8] == arr[9])
         return 1;
 
-    // vartical matching condition...
-    else if (box[1] == box[4] && box[4] == box[7])
+    // vertical matching condition...
+    else if (arr[1] == arr[4] && arr[4] == arr[7])
         return 1;
-    else if (box[2] == box[5] && box[5] == box[8])      // vertical match...
+    else if (arr[2] == arr[5] && arr[5] == arr[8])      // vartical match...
         return 1;
-    else if (box[3] == box[6] && box[6] == box[9])
+    else if (arr[3] == arr[6] && arr[6] == arr[9])
         return 1;
 
     // transverse matching condition...
-    else if (box[1] == box[5] && box[5] == box[9])      // transverse match...
+    else if (arr[1] == arr[5] && arr[5] == arr[9])      // transverse match...
         return 1;
-    else if (box[3] == box[5] && box[5] == box[7])
+    else if (arr[3] == arr[5] && arr[5] == arr[7])
         return 1;
 
     // no matching condition...
-    else if (box[1]!= '1' && box[2]!= '2' && box[3]!= '3' && box[4]!= '4' && box[5]!= '5' && box[6]!= '6' && box[7]!= '7' && box[8]!= '8' && box[9]!= '9')      // no match...
+    else if (arr[1]!= '1' && arr[2]!= '2' && arr[3]!= '3' && arr[4]!= '4' && arr[5]!= '5' && arr[6]!= '6' && arr[7]!= '7' && arr[8]!= '8' && arr[9]!= '9')      // no match...
         return 0;
     else {
         return -1;
